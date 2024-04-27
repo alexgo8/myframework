@@ -13,7 +13,7 @@ class APIController
     $usersArray = $data->getDataArray();
     $response_usersArray = array(
       "status" => "success",
-      "code" => 200,
+      "code" => http_response_code(),
       "data" => $usersArray
     );
     header('Content-Type: application/json');
@@ -64,23 +64,23 @@ class APIController
   }
   public function delete()
   {
-    // $json = file_get_contents('php://input');
-    // $userData = json_decode($json, true);
-    // if ($userData === null && json_last_error() !== JSON_ERROR_NONE) {
-    //   http_response_code(400);
-    //   echo json_encode(['error' => 'Ошибка при декодировании JSON']);
-    //   return;
-    // }
-    // $data = new JsonUserModel;
-    // $usersArray = $data->getDataArray();
-    // foreach ($usersArray as $key => $user) {
-    //   if ($user['id'] == $userData['id']) {
-    //     $usersArray[$key]['name'] = $userData['name'];
-    //     $usersArray[$key]['email'] = $userData['email'];
-    //   }
-    // }
-    // $jsonData = json_encode($usersArray, JSON_PRETTY_PRINT);
-    // file_put_contents($data->jsonFile, $jsonData);
-    // echo json_encode(['message' => 'JSON данные успешно обновлены']);
+    $json = file_get_contents('php://input');
+    $userData = json_decode($json, true);
+    if ($userData === null && json_last_error() !== JSON_ERROR_NONE) {
+      http_response_code(400);
+      echo json_encode(['error' => 'Ошибка при декодировании JSON']);
+      return;
+    }
+    $data = new JsonUserModel;
+    $usersArray = $data->getDataArray();
+    foreach ($usersArray as $key => $user) {
+      if ($user['id'] == $userData['id']) {
+        unset($usersArray[$key]);
+        break;
+      }
+    }
+    $jsonData = json_encode($usersArray, JSON_PRETTY_PRINT);
+    file_put_contents($data->jsonFile, $jsonData);
+    echo json_encode(['message' => 'JSON данные успешно удалены']);
   }
 }

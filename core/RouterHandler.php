@@ -6,12 +6,12 @@ use core\RouteFinder;
 
 class RouterHandler
 {
-  public function  callControllerMethodWithParams(RouteFinder $controllerMethodWithParams)
+  public function  callControllerMethod(RouteFinder $controllerMethod)
   {
-    $controllerClassPath = "project\controllers\\" . $controllerMethodWithParams->controller;
+    $controllerClassPath = "project\controllers\\" . $controllerMethod->controller;
     $controller = new $controllerClassPath();
-    if (method_exists($controller, $controllerMethodWithParams->action)) {
-      $result = $controller->{$controllerMethodWithParams->action}($controllerMethodWithParams->params);
+    if (method_exists($controller, $controllerMethod->method)) {
+      $result = $controller->{$controllerMethod->method}($controllerMethod->params);
       if ($result) {
         return $result;
       } else {

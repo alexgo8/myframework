@@ -1,27 +1,17 @@
-[
-    {
-        "id": 1,
-        "name": "alexander",
-        "email": "1111@email.ru"
-    },
-    {
-        "id": 2,
-        "name": "\u041c\u043e\u0440\u043a\u043e\u0432\u043a\u0430",
-        "email": "usermail@mail.ru"
-    },
-    {
+{
+    "2": {
         "id": 3,
         "name": "\u0418\u0432\u0430\u043d",
         "email": "email@gmail.ru"
     },
-    {
+    "3": {
         "id": 4,
         "name": "\u0420\u0435\u0434\u0438\u0441\u043a\u0430",
         "email": "mail@mail.ru"
     },
-    {
+    "4": {
         "id": 5,
         "name": "\u041c\u043e\u0440\u043a\u043e\u0432\u043a\u0430",
         "email": "usermail@mail.ru"
     }
-]
+}

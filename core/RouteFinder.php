@@ -5,13 +5,13 @@ namespace core;
 class RouteFinder
 {
   private $controller;
-  private $action;
+  private $method;
   private $params;
 
-  public function __construct($controller = null, $action = null, $params = null)
+  public function __construct($controller = null, $method = null, $params = null)
   {
     $this->controller = $controller;
-    $this->action = $action;
+    $this->method = $method;
     $this->params = $params;
   }
 

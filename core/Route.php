@@ -8,40 +8,29 @@ class Route
 {
   private $path;
   private $controller;
-  private $action;
+  private $method;
 
-  public function __construct($path = null, $controller = null, $action = null)
+  public function __construct($path = null, $controller = null, $method = null)
   {
     $this->path = $path;
     $this->controller = $controller;
-    $this->action = $action;
+    $this->method = $method;
   }
   public function __get($property)
   {
     return $this->$property;
   }
-  public function getRouteFinder($routes, $url)
-  {     
-    $queryParams = null;
-    if ($_SERVER['REQUEST_METHOD'] == "GET") {
-      if (isset($_SERVER['REDIRECT_QUERY_STRING'])) {
-        $queryString = $_SERVER['REDIRECT_QUERY_STRING'];
-        $queryParams = array();
-        parse_str($queryString, $queryParams);                   
-      }      
-    } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
-      $urlWithoutParams = $url;
-      $queryParams = $_POST;
+  public function getRouteFinder($routesList)
+  {
+    $baseUrl = $_SERVER['REQUEST_URI'];
+    if (isset($_SERVER['REDIRECT_URL'])) {
+      $baseUrl = $_SERVER['REDIRECT_URL'];
     }
-    // foreach ($routes as $route) {
-    //   echo $route->path;
-    // }
+    $requestData = $_REQUEST;
 
-
-
-    foreach ($routes as $route) {
-      if ($route->path == $urlWithoutParams or $route->path . '/' == $urlWithoutParams) {
-        return new RouteFinder($route->controller, $route->action, $queryParams);
+    foreach ($routesList as $route) {
+      if ($route->path == $baseUrl or $route->path . '/' == $baseUrl) {
+        return new RouteFinder($route->controller, $route->method, $requestData);
       }
     }
     return new RouteFinder('ErrorController', 'error');

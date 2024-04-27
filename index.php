@@ -11,8 +11,8 @@ ini_set('display_errors', 'on');
 
 require $_SERVER['DOCUMENT_ROOT'] . '/project/config/connection-database.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/project/config/autoload-functions.php';
-$routes = require $_SERVER['DOCUMENT_ROOT'] . '/project/routes/Routes.php';
+$routesList = require $_SERVER['DOCUMENT_ROOT'] . '/project/routes/RoutesList.php';
 
-$controllerMethodWithParams = (new Route())->getRouteFinder($routes, $_SERVER['REQUEST_URI']);
-// $pageContext = (new RouterHandler())->callControllerMethodWithParams($controllerMethodWithParams);
-// echo (new View)->render($pageContext);
+$controllerMethod = (new Route())->getRouteFinder($routesList);
+$pageContext = (new RouterHandler())->callControllerMethod($controllerMethod);
+echo (new View)->render($pageContext);
