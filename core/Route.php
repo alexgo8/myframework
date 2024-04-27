@@ -21,25 +21,27 @@ class Route
     return $this->$property;
   }
   public function getRouteFinder($routes, $url)
-  {
-    $requestParams = null;
-    if ($_SERVER["REQUEST_METHOD"] == "GET") {
-      $urlWithoutParams = preg_replace('/\?.*/', '', $url);
-      if ($urlWithoutParams != $url) {
-        preg_match_all('/[?&]([^&=]+)=([^&=]+)/', $_SERVER['REQUEST_URI'], $matches);
-        $requestParams = array();
-        for ($i = 0; $i < count($matches[0]); $i++) {
-          $requestParams[$matches[1][$i]] = $matches[2][$i];
-        }
-      }
+  {     
+    $queryParams = null;
+    if ($_SERVER['REQUEST_METHOD'] == "GET") {
+      if (isset($_SERVER['REDIRECT_QUERY_STRING'])) {
+        $queryString = $_SERVER['REDIRECT_QUERY_STRING'];
+        $queryParams = array();
+        parse_str($queryString, $queryParams);                   
+      }      
     } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
       $urlWithoutParams = $url;
-      $requestParams = $_POST;
+      $queryParams = $_POST;
     }
+    // foreach ($routes as $route) {
+    //   echo $route->path;
+    // }
+
+
 
     foreach ($routes as $route) {
       if ($route->path == $urlWithoutParams or $route->path . '/' == $urlWithoutParams) {
-        return new RouteFinder($route->controller, $route->action, $requestParams);
+        return new RouteFinder($route->controller, $route->action, $queryParams);
       }
     }
     return new RouteFinder('ErrorController', 'error');
