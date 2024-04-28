@@ -1,4 +1,5 @@
 <?php
 spl_autoload_register(function ($class) {
-  require $_SERVER['DOCUMENT_ROOT'] . '/' . $class . '.php';  
+  $classPath = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+  require $classPath . '.php';  
 });
